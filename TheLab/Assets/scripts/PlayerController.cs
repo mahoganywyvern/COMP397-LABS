@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -37,18 +38,29 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] bool _isGrounded;
 
+    [Header("Respawn Locations")]
+
+    [SerializeField] Transform _respawn;
+
 
 
     void Awake()
     {
         _controller = GetComponent<CharacterController>();
         _inputs = new TheLab();
-        _inputs.Enable();
         _inputs.Player.Move.performed += context => _move = context.ReadValue<Vector2>();
         _inputs.Player.Move.canceled += context => _move = Vector2.zero;
         _inputs.Player.Jump.performed += context => Jump();
     }
+    void OnEnable()
+    {
+        _inputs.Enable();
+    }
 
+   void OnDisable()
+    {
+        _inputs.Disable();
+    }
 
     private void FixedUpdate()
     {
@@ -79,4 +91,20 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"Triggering with {other.gameObject.tag}");
+
+        if (other.CompareTag("Death"))
+        {
+            _controller.enabled = false;
+            // transform.position = new Vector3(0.0f,3.0f,0.0f);
+            transform.position = _respawn.position;
+            _controller.enabled = true;
+        }
+    }
+
+
 }
