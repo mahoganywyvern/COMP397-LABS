@@ -64,6 +64,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Camera"",
+                    ""type"": ""Value"",
+                    ""id"": ""d30f97bb-c816-43a8-9fcc-6827f05e6543"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -308,6 +317,61 @@ namespace UnityEngine.InputSystem
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""66324e41-04f3-4a38-87c6-9665b94a6be2"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a289678d-9e4e-441b-a7ad-f52241cadd1f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ffe5ab61-b6c5-413f-ba31-d5b56080ddb0"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""1480d15f-29d2-4789-9701-09f0512b4bba"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""05e0ccf1-59ec-440e-a6fa-5cbf18690f6a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -381,6 +445,7 @@ namespace UnityEngine.InputSystem
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+            m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -444,6 +509,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Jump;
+        private readonly InputAction m_Player_Camera;
         public struct PlayerActions
         {
             private @TheLab m_Wrapper;
@@ -452,6 +518,7 @@ namespace UnityEngine.InputSystem
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
+            public InputAction @Camera => m_Wrapper.m_Player_Camera;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -473,6 +540,9 @@ namespace UnityEngine.InputSystem
                     @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                    @Camera.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                    @Camera.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
+                    @Camera.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCamera;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -489,6 +559,9 @@ namespace UnityEngine.InputSystem
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @Camera.started += instance.OnCamera;
+                    @Camera.performed += instance.OnCamera;
+                    @Camera.canceled += instance.OnCamera;
                 }
             }
         }
@@ -544,6 +617,7 @@ namespace UnityEngine.InputSystem
             void OnLook(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnCamera(InputAction.CallbackContext context);
         }
     }
 }
