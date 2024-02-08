@@ -17,6 +17,7 @@ public class PauseManager : MonoBehaviour
                 PauseGame();
         _inputs.Enable();
     }
+
     void OnDisable()
     {
         _inputs.Disable();
