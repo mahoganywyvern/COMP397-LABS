@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.XR;
 
 [RequireComponent(typeof(CharacterController))]
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Subject
 {
 
     TheLab _inputs;
@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             _velocity.y = Mathf.Sqrt(_jumpHeight * -2.0f * _gravity);
+            NotifyObservers(PlayerEnums.Jump);
         }
 
 
@@ -103,6 +104,7 @@ public class PlayerController : MonoBehaviour
             // transform.position = new Vector3(0.0f,3.0f,0.0f);
             transform.position = _respawn.position;
             _controller.enabled = true;
+            NotifyObservers(PlayerEnums.Died);
         }
     }
 
