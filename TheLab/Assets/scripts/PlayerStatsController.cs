@@ -50,4 +50,9 @@ public class PlayerStatsController : MonoBehaviour, IObserver
             SceneManager.LoadScene("GameOver");
         }
     }
+
+    public void SaveGameIntoFile()
+    {
+        SaveGameManager.Instance().SaveGame(_playerSubject.transform);
+    }
 }
