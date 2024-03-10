@@ -17,7 +17,8 @@ public class PlayerController : Subject
     #region Serialized Fields
     [Header("Character Controller")]
     [SerializeField] CharacterController _controller;
-
+    [Header("Joystick")]
+    [SerializeField] private Joystick _joystick;
     [Header("Movements")]
     [SerializeField] float _speed;
     [SerializeField] float _gravity = -30.0f;
@@ -55,6 +56,7 @@ public class PlayerController : Subject
         {
             _velocity.y = -2.0f;
         }
+        _move = _joystick.Direction;
         _camForward = _camera.transform.forward;
         _camRight = _camera.transform.right;
         _camForward.y = 0f;
@@ -84,7 +86,7 @@ public class PlayerController : Subject
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Death"))
+        if (other.CompareTag("death"))
         {
             _controller.enabled = false;
             transform.position = _respawn.position;
