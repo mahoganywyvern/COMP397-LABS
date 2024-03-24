@@ -86,7 +86,7 @@ public class PlayerController : Subject
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("death"))
+        if (other.CompareTag("Death"))
         {
             _controller.enabled = false;
             transform.position = _respawn.position;
